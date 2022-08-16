@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/alka485/Employee-Tracker/issues"
   },
-  "homepage": "https://github.com/alka485/Employee-Tracker#readme"
+  "homepage": "https://github.com/alka485/Employee-Tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
 }
