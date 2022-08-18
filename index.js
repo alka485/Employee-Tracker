@@ -23,8 +23,10 @@ const db = mysql.createConnection(
 //select * from role;
 //select * from employee;
 
-const questions =() => {
-    return inquirer.prompt([
+//db.query = utils.promisify(db.query);
+
+const questions =
+    inquirer.prompt([
         {
             type : 'list',
             name : 'details',
@@ -44,8 +46,14 @@ const questions =() => {
                 
             
         }
-    ]).then(response => {
-        const {choices} = response ;
-        
-    })
-}
+    ]);
+
+// const viewDepartment = async () =>{
+//     const department = await db.query("Select * From department");
+//     console.log();
+
+// }    
+
+// console.log(department);
+
+// viewDepartment();
