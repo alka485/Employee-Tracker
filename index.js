@@ -16,3 +16,5 @@ const db = mysql.createConnection(
 
     }
 )
+
+//select * from department;
