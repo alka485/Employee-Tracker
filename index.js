@@ -17,7 +17,7 @@ const db = mysql.createConnection(
 )
 db.query = utils.promisify(db.query)
 
-const questions = await inquirer.prompt([
+const questions =  inquirer.prompt([
         {
             type : 'list',
             name : 'choice',
@@ -29,26 +29,28 @@ const questions = await inquirer.prompt([
                        'Add a role',
                        'Add an employee',
                        'Update an employee role',
-                       'No Action']
+                       'No Action'],
                 
-            
-        }
-
         
+        },       
+    ])
+    .then(answers => {
+        const {choice} = answers;
+        console.log(choice);
+        switch (choice) {
+            case 'View All Departments':
+                viewAllDepartment();
+                break;
+        
+            default:
+                break;
+        }
+    });
 
-    ]);
-
-   // console.log(questions);
     
 const viewAllDepartment = async () =>{
     const department = await db.query("SELECT * FROM department");
     console.table(department);
     
 }
-viewAllDepartment();
 
-// db.query('SELECT * FROM employee',
-//           function(err,results,fields){
-//             console.log(results);
-//             console.log(fields);
-//           } )
