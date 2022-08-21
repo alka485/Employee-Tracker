@@ -23,16 +23,14 @@ const questions =  inquirer.prompt([
             name : 'choice',
             message: "What would you like to do?",
             choices: ['View All Departments',
-                       'View all roles',
+                       'View All Roles',
                        'View all employees',
                        'Add a department',
                        'Add a role',
                        'Add an employee',
                        'Update an employee role',
                        'No Action'],
-                
-        
-        },       
+                 },       
     ])
     .then(answers => {
         const {choice} = answers;
@@ -40,6 +38,9 @@ const questions =  inquirer.prompt([
         switch (choice) {
             case 'View All Departments':
                 viewAllDepartment();
+                break;
+            case 'View All Roles':
+                viewAllRoles();
                 break;
         
             default:
@@ -54,3 +55,8 @@ const viewAllDepartment = async () =>{
     
 }
 
+const viewAllRoles = async () =>{
+    // const department = await db.query("SELECT * FROM department");
+    // console.table(department);
+    console.log("wait");
+}
