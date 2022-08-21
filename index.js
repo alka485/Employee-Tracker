@@ -55,16 +55,14 @@ const questions =  inquirer.prompt([
 const viewAllDepartment = async () =>{
     const department = await db.query("SELECT * FROM department");
     console.table(department);
-    
-}
+    }
 
 const viewAllRoles = async () =>{
     const role = await db.query(`SELECT role.id,
                                         role.title,
                                         department.name AS department,
                                         role.salaryFROM role JOIN department ON role.department_id=department.id`);
-    console.table(role);
-    
+    console.table(role);    
 }
 
 const viewAllEmployees =async () => {
