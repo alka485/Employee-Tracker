@@ -37,11 +37,11 @@ const questions =  inquirer.prompt([
         console.log(choice);
         switch (choice) {
             case 'View All Departments':
-                viewAllDepartment();
-                break;
+                 viewAllDepartment();
+                 break;
             case 'View All Roles':
-                viewAllRoles();
-                break;
+                 viewAllRoles();
+                 break;
         
             default:
                 break;
@@ -56,7 +56,7 @@ const viewAllDepartment = async () =>{
 }
 
 const viewAllRoles = async () =>{
-    // const department = await db.query("SELECT * FROM department");
-    // console.table(department);
-    console.log("wait");
+    const role = await db.query("SELECT role.id,role.title,department.name AS department,role.salary  FROM role JOIN department ON role.department_id=department.id");
+    console.table(role);
+    
 }
