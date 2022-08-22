@@ -19,7 +19,9 @@ const db = mysql.createConnection(
 )
 db.query = utils.promisify(db.query)
 
-const questions =  inquirer.prompt([
+   startPrompt();
+function startPrompt(){ 
+     inquirer.prompt([
         {
             type : 'list',
             name : 'choice',
@@ -53,11 +55,12 @@ const questions =  inquirer.prompt([
                 break;
         }
     });
-
+}
     
 const viewAllDepartment = async () =>{
     const department = await db.query("SELECT * FROM department");
     console.table(department);
+    startPrompt();
     }
 
 const viewAllRoles = async () =>{
@@ -67,7 +70,8 @@ const viewAllRoles = async () =>{
                                         role.salary
                                         FROM role 
                                         JOIN department ON role.department_id=department.id`);
-    console.table(role);    
+    console.table(role);  
+    startPrompt();  
 }
 
 const viewAllEmployees =async () => {
@@ -82,6 +86,7 @@ const viewAllEmployees =async () => {
                                        JOIN department ON department.id = role.department_id
                                        LEFT JOIN employee e ON employee.manager_id = e.id`);
     console.table(emp);
+    startPrompt();
 }
 
 const addDepartment = async () => {
@@ -96,9 +101,13 @@ const addDepartment = async () => {
 
     await db.query(
                  `INSERT INTO department(name) VALUES(?)`,
-                 [answers.name]
-    );
+                 [answers.dept]
+               
 
+    );
+         console.log("Added "+answers.dept+" to the database");
+
+         startPrompt();
     
 }
 
