@@ -3,6 +3,7 @@ const { table } = require('console');
 const  inquirer = require('inquirer');
 //const choices = require('inquirer/lib/objects/choices');
 const mysql = require('mysql2');
+const { type } = require('os');
 const utils = require('util');
 
 const db = mysql.createConnection(
@@ -26,7 +27,7 @@ const questions =  inquirer.prompt([
             choices: ['View All Departments',
                        'View All Roles',
                        'View All Employees',
-                       'Add a department',
+                       'Add Department',
                        'Add a role',
                        'Add an employee',
                        'Update an employee role',
@@ -46,6 +47,8 @@ const questions =  inquirer.prompt([
             case 'View All Employees':
                   viewAllEmployees();       
                  break;
+            case 'Add Department':
+                 addDepartment();     
             default:
                 break;
         }
@@ -80,3 +83,22 @@ const viewAllEmployees =async () => {
                                        LEFT JOIN employee e ON employee.manager_id = e.id`);
     console.table(emp);
 }
+
+const addDepartment = async () => {
+
+    const answers = await inquirer.prompt([
+        {
+            message: "What is the name of the department?",
+            name: "dept",
+            type:"input"
+        }
+    ]);
+
+    await db.query(
+                 `INSERT INTO department(name) VALUES(?)`,
+                 [answers.name]
+    );
+
+    
+}
+
