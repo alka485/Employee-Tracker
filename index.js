@@ -30,7 +30,7 @@ function startPrompt(){
                        'View All Roles',
                        'View All Employees',
                        'Add Department',
-                       'Add a role',
+                       'Add Role',
                        'Add an employee',
                        'Update an employee role',
                        'No Action'],
@@ -50,7 +50,9 @@ function startPrompt(){
                   viewAllEmployees();       
                  break;
             case 'Add Department':
-                 addDepartment();     
+                 addDepartment();
+            case 'Add Role':
+                 addRole();          
             default:
                 break;
         }
@@ -106,6 +108,47 @@ const addDepartment = async () => {
 
     );
          console.log("Added "+answers.dept+" to the database");
+
+         startPrompt();
+    
+}
+
+const addRole = async () => {
+
+    db.query('SELECT * FROM department', function(err,res){
+        if(err) throw err;
+    })
+
+
+    const answers = await inquirer.prompt([
+        {
+            message: "What is the name of the role?",
+            name: "role",
+            type:"input"
+        },
+        {
+            message: "What is the salary of the role?",
+            name: "sal",
+            type:"input"
+        },
+        {
+            message: "Which department does the role belong to?",
+            name: "dept",
+            type:"list",
+            choices :userChoices
+        }
+
+
+    ]);
+
+    await db.query(
+                 `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
+                 [answers.role,answers.salary,answers.dept]
+               
+
+    );
+         //console.log("Added "+answers.dept+" to the database");
+         console.log("done");
 
          startPrompt();
     
