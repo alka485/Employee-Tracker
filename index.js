@@ -61,7 +61,9 @@ const viewAllRoles = async () =>{
     const role = await db.query(`SELECT role.id,
                                         role.title,
                                         department.name AS department,
-                                        role.salaryFROM role JOIN department ON role.department_id=department.id`);
+                                        role.salary
+                                        FROM role 
+                                        JOIN department ON role.department_id=department.id`);
     console.table(role);    
 }
 
