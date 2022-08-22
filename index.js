@@ -115,9 +115,15 @@ const addDepartment = async () => {
 
 const addRole = async () => {
 
-    db.query('SELECT * FROM department', function(err,res){
-        if(err) throw err;
+    const department = await db.query("SELECT * FROM department");
+    console.table(department);
+    const userChoices = department.map(user =>{
+        name: user.name
     })
+
+   
+        if(err) throw err;
+    }
 
 
     const answers = await inquirer.prompt([
@@ -144,6 +150,7 @@ const addRole = async () => {
     await db.query(
                  `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
                  [answers.role,answers.salary,answers.dept]
+
                
 
     );
@@ -152,5 +159,5 @@ const addRole = async () => {
 
          startPrompt();
     
-}
+
 
