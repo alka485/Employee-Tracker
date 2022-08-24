@@ -119,10 +119,9 @@ const addRole = async () => {
     const userChoices = department.map(name => {
         name: department.name
         value: department.id
-        //console.log(name);
         
-        //console.log(userChoices.name);
-})
+   })
+//userChoices.push(name);
 console.log(userChoices);
         const answers = await inquirer.prompt([
         {
