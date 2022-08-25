@@ -1,9 +1,11 @@
 //Import and require mysql2
-const { table } = require('console');
+//const { table } = require('console');
 const inquirer = require('inquirer');
+//onst { default: Choice } = require('inquirer/lib/objects/choice');
 //const choices = require('inquirer/lib/objects/choices');
 const mysql = require('mysql2');
-const { type } = require('os');
+//const Connection = require('mysql2/typings/mysql/lib/Connection');
+//const { type } = require('os');
 const utils = require('util');
 
 const db = mysql.createConnection(
@@ -31,7 +33,7 @@ function startPrompt() {
                 'View All Employees',
                 'Add Department',
                 'Add Role',
-                'Add an employee',
+                'Add Employee',
                 'Update an employee role',
                 'No Action'],
         },
@@ -53,6 +55,10 @@ function startPrompt() {
                     addDepartment();
                 case 'Add Role':
                     addRole();
+                   break;
+                case 'Add Employee':
+                    addEmp();
+                    break;   
                 default:
                     break;
             }
@@ -112,18 +118,13 @@ const addDepartment = async () => {
     startPrompt();
 
 }
-
 const addRole = async () => {
     const department = await db.query("SELECT * FROM department");
-    //console.table(department);
-    const userChoices = department.map(name => {
-        name: department.name
-        value: department.id
-        
-   })
-//userChoices.push(name);
-console.log(userChoices);
-        const answers = await inquirer.prompt([
+    const userChoices = department.map(department => ({
+        name: department.name,
+        value: department.id     
+   }) );
+     const answers = await inquirer.prompt([
         {
             message: "What is the name of the role?",
             name: "role",
@@ -146,10 +147,117 @@ console.log(userChoices);
         `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
         [answers.role, answers.salary, answers.dept]
     );
-    //console.log("Added "+answers.dept+" to the database");
-    console.log("done");
-
-
-
+    console.log("Added "+answers.dept+" to the database");
     startPrompt();
     }
+
+    const addEmp = async () => {
+        const role = await db.query("SELECT id,title FROM role");
+        const userChoices = role.map(role => ({
+            name: role.title,
+            value: role.id     
+       }) );
+         const answers = await inquirer.prompt([
+            {
+                message: "What is the employee first name?",
+                name: "f_name",
+                type: "input"
+            },
+            {
+                message: "What is the employee last name?",
+                name: "l_name",
+                type: "input"
+            },
+            {
+                message: "What is the employee role?",
+                name: "emp_role",
+                type: "list",
+                choices: userChoices
+            }
+         ]);
+    
+        await db.query(
+            `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
+            [answers.role, answers.salary, answers.dept]
+        );
+        console.log("Added "+answers.dept+" to the database");
+        startPrompt();
+        }
+    
+    // const addEmp = () => {
+    //     inquirer.prompt([
+    //         {
+    //           type: 'input',
+    //           name: 'fistName',
+    //           message: "What is the employee's first name?",
+              
+    //         },
+    //         {
+    //           type: 'input',
+    //           name: 'lastName',
+    //           message: "What is the employee's last name?",
+              
+    //         }
+    //       ])
+    //         .then(answer => {
+    //         const params = [answer.fistName, answer.lastName]
+        
+    //         // grab roles from roles table
+    //         const roleSql = `SELECT role.id, role.title FROM role`;
+          
+    //         connection.promise().query(roleSql, (err, data) => {
+    //           if (err) throw err; 
+              
+    //           const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+        
+    //           inquirer.prompt([
+    //                 {
+    //                   type: 'list',
+    //                   name: 'role',
+    //                   message: "What is the employee's role?",
+    //                   choices: roles
+    //                 }
+    //               ])
+    //                 .then(roleChoice => {
+    //                   const role = roleChoice.role;
+    //                   params.push(role);
+        
+    //                   const managerSql = `SELECT * FROM employee`;
+        
+    //                   connection.promise().query(managerSql, (err, data) => {
+    //                     if (err) throw err;
+        
+    //                     const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " "+ last_name, value: id }));
+        
+    //                     // console.log(managers);
+        
+    //                     inquirer.prompt([
+    //                       {
+    //                         type: 'list',
+    //                         name: 'manager',
+    //                         message: "Who is the employee's manager?",
+    //                         choices: managers
+    //                       }
+    //                     ])
+    //                       .then(managerChoice => {
+    //                         const manager = managerChoice.manager;
+    //                         params.push(manager);
+        
+    //                         const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    //                         VALUES (?, ?, ?, ?)`;
+        
+    //                         connection.query(sql, params, (err, result) => {
+    //                         if (err) throw err;
+    //                         console.log("Employee has been added!")
+        
+    //                         startPrompt();
+    //                   });
+    //                 });
+    //               });
+    //             });
+    //          });
+    //       });
+    //     };
+        
+
+    
