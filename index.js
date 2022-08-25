@@ -34,7 +34,7 @@ function startPrompt() {
                 'Add Department',
                 'Add Role',
                 'Add Employee',
-                'Update an employee role',
+                'Update Employee role',
                 'No Action'],
         },
     ])
@@ -58,19 +58,19 @@ function startPrompt() {
                    break;
                 case 'Add Employee':
                     addEmp();
+                case 'Update Employee role':
+                    updateEmpRole();   
                     break;   
                 default:
                     break;
             }
         });
 }
-
 const viewAllDepartment = async () => {
     const department = await db.query("SELECT * FROM department");
     console.table(department);
     startPrompt();
 }
-
 const viewAllRoles = async () => {
     const role = await db.query(`SELECT role.id,
                                         role.title,
@@ -81,7 +81,6 @@ const viewAllRoles = async () => {
     console.table(role);
     startPrompt();
 }
-
 const viewAllEmployees = async () => {
     const emp = await db.query(`SELECT employee.id,
                                        employee.first_name,
@@ -96,7 +95,6 @@ const viewAllEmployees = async () => {
     console.table(emp);
     startPrompt();
 }
-
 const addDepartment = async () => {
 
     const answers = await inquirer.prompt([
@@ -153,10 +151,19 @@ const addRole = async () => {
 
     const addEmp = async () => {
         const role = await db.query("SELECT id,title FROM role");
-        const userChoices = role.map(role => ({
+         const userChoices = role.map(role => ({
             name: role.title,
             value: role.id     
        }) );
+
+       const employee = await db.query("SELECT id, first_name,last_name from employee");
+        //console.log(manager);
+       const userManager = employee.map(employee =>({
+              name: employee.first_name + " "+employee.last_name,
+              value: employee.id
+       }));
+       //console.log(userManager);
+    
          const answers = await inquirer.prompt([
             {
                 message: "What is the employee first name?",
@@ -173,14 +180,21 @@ const addRole = async () => {
                 name: "emp_role",
                 type: "list",
                 choices: userChoices
+            },
+            {
+                message: "Who is the employee manager?",
+                name: "emp_manager",
+                type: "list",
+                choices: userManager
             }
          ]);
     
         await db.query(
-            `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
-            [answers.role, answers.salary, answers.dept]
+            `INSERT INTO employee(first_name,last_name,role_id,manager_id) VALUES(?,?,?,?)`,
+            [answers.f_name, answers.l_name, answers.emp_role,answers.emp_manager]
         );
-        console.log("Added "+answers.dept+" to the database");
+        console.log("Added "+answers.f_name + answers.l_name+" to the database");
+        //console.log("done");
         startPrompt();
         }
     
