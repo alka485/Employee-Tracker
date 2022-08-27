@@ -205,14 +205,16 @@ const addRole = async () => {
             name: role.title,
             value: role.id     
        }) );
+       console.log(userRole);
              const answers = await inquirer.prompt([
                 {
                     message: "Which employer role do you want to update?",
-                    name: "emp_role",
+                    name: "emp",
                     type: "list",
                     choices: useremployee
                 },
                 {
+                    
                     message: "Which role do you want to assign selected employee?",
                     name: "emp_role",
                     type: "list",
