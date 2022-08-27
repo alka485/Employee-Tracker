@@ -1,13 +1,6 @@
-//Import and require mysql2
-//const { table } = require('console');
 const inquirer = require('inquirer');
-//onst { default: Choice } = require('inquirer/lib/objects/choice');
-//const choices = require('inquirer/lib/objects/choices');
 const mysql = require('mysql2');
-//const Connection = require('mysql2/typings/mysql/lib/Connection');
-//const { type } = require('os');
 const utils = require('util');
-
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -20,7 +13,6 @@ const db = mysql.createConnection(
     }
 )
 db.query = utils.promisify(db.query)
-
 startPrompt();
 function startPrompt() {
     inquirer.prompt([
@@ -108,11 +100,8 @@ const addDepartment = async () => {
     await db.query(
         `INSERT INTO department(name) VALUES(?)`,
         [answers.dept]
-
-
-    );
+  );
     console.log("Added " + answers.dept + " to the database");
-
     startPrompt();
 
 }
@@ -140,8 +129,7 @@ const addRole = async () => {
             choices: userChoices
         }
      ]);
-
-    await db.query(
+     await db.query(
         `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
         [answers.role, answers.salary, answers.dept]
     );
@@ -190,10 +178,8 @@ const addRole = async () => {
             [answers.f_name, answers.l_name, answers.emp_role,answers.emp_manager]
         );
         console.log("Added "+answers.f_name + answers.l_name+" to the database");
-        //console.log("done");
         startPrompt();
         }
-
         const updateEmpRole = async () => {
             const employee = await db.query("SELECT * FROM employee");
             const useremployee = employee.map(employee => ({
@@ -219,16 +205,9 @@ const addRole = async () => {
                     name: "emp_role",
                     type: "list",
                     choices: userRole
-                }
-                
+                }                
              ]);
-        
-            // await db.query(
-            //     `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
-            //     [answers.role, answers.salary, answers.dept]
-            // );
-            //console.log("Added "+answers.dept+" to the database");
-            console.log("added");
+            console.log("update Employee role");
             startPrompt();
             }
     
