@@ -88,22 +88,22 @@ const viewAllEmployees = async () => {
     startPrompt();
 }
 const addDepartment = async () => {
+   // console.log("Hello");
 
-    const answers = await inquirer.prompt([
+    const answersDept = await inquirer.prompt([
         {
             message: "What is the name of the department?",
             name: "dept",
             type: "input"
         }
+       
     ]);
 
     await db.query(
-        `INSERT INTO department(name) VALUES(?)`,
-        [answers.dept]
-  );
-    console.log("Added " + answers.dept + " to the database");
+        "INSERT INTO department (name) VALUES(?)",  [answersDept.dept] );
+    console.log("Added " + answersDept.dept + " to the database");
     startPrompt();
-
+    console.log("END");
 }
 const addRole = async () => {
     const department = await db.query("SELECT * FROM department");
@@ -131,8 +131,7 @@ const addRole = async () => {
      ]);
      await db.query(
         `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
-        [answers.role, answers.salary, answers.dept]
-    );
+        [answers.role, answers.salary, answers.dept] );
     console.log("Added "+answers.dept+" to the database");
     startPrompt();
     }
@@ -144,7 +143,7 @@ const addRole = async () => {
        }) );
 
        const employee = await db.query("SELECT id, first_name,last_name from employee");
-       const userManager = employee.map(employee =>({
+       const userManager = employee.map(employee => ({
               name: employee.first_name + " "+employee.last_name,
               value: employee.id
        }));
@@ -180,35 +179,35 @@ const addRole = async () => {
         console.log("Added "+answers.f_name + answers.l_name+" to the database");
         startPrompt();
         }
-        const updateEmpRole = async () => {
-            const employee = await db.query("SELECT * FROM employee");
-            const useremployee = employee.map(employee => ({
-                name: employee.first_name + " "+employee.last_name,
-                value: employee.id  
-           }) );
-           const role = await db.query("SELECT id,title FROM role");
-            const userRole = role.map(role => ({
-            name: role.title,
-            value: role.id     
-       }) );
-       console.log(userRole);
-             const answers = await inquirer.prompt([
-                {
-                    message: "Which employer role do you want to update?",
-                    name: "emp",
-                    type: "list",
-                    choices: useremployee
-                },
-                {
+    //     const updateEmpRole = async () => {
+    //         const employee = await db.query("SELECT * FROM employee");
+    //         const useremployee = employee.map(employee => ({
+    //             name: employee.first_name + " "+employee.last_name,
+    //             value: employee.id  
+    //        }) );
+    //        const role = await db.query("SELECT id,title FROM role");
+    //         const userRole = role.map(role => ({
+    //         name: role.title,
+    //         value: role.id     
+    //    }) );
+    //    console.log(userRole);
+    //          const answers = await inquirer.prompt([
+    //             {
+    //                 message: "Which employer role do you want to update?",
+    //                 name: "emp",
+    //                 type: "list",
+    //                 choices: useremployee
+    //             },
+    //             {
                     
-                    message: "Which role do you want to assign selected employee?",
-                    name: "emp_role",
-                    type: "list",
-                    choices: userRole
-                }                
-             ]);
-            console.log("update Employee role");
-            startPrompt();
-            }
+    //                 message: "Which role do you want to assign selected employee?",
+    //                 name: "emp_role",
+    //                 type: "list",
+    //                 choices: userRole
+    //             }                
+    //          ]);
+    //         console.log("update Employee role");
+    //         startPrompt();
+    //         }
     
     
