@@ -194,7 +194,7 @@ const addRole = async () => {
             name: role.title,
             value: role.id     
        }) );
-       //console.log(userRole);
+     
              const answers = await inquirer.prompt([
                 {
                     message: "Which employer role do you want to update?",
