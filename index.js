@@ -135,12 +135,11 @@ const addRole = async () => {
      await db.query(
         `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
         [answers.role, answers.sal, answers.dept] );
-    console.log("Added "+answers.dept+" to the database");
+    console.log("Added "+answers.role+" to the database");
     startPrompt();
     }
     const addEmp = async () => {
-        console.log("Hello");
-        const role = await db.query("SELECT id,title FROM role");
+         const role = await db.query("SELECT id,title FROM role");
          const userChoices = role.map(role => ({
             name: role.title,
             value: role.id     
