@@ -22,7 +22,7 @@ https://github.com/alka485/Employee-Tracker.git
 
 ## Video Tutorial
 
-
+https://drive.google.com/file/d/1ohkuLYV_o16Qz9D3U03V6w20DHD4xgAi/view
 ## Acceptance Criteria
 
 ```md
@@ -49,6 +49,10 @@ THEN I am prompted to select an employee to update and their new role and this i
 To test this application, you will have to download it to your code editor. Then download the npm packages that are required. You will then run mysql and add the schema & seeds files to get the starter tables made with the current employees. After that has been completed, you will run node server.js and the prompts will start for the user to work with.
 
 ## Screenshots
+![screenshots](./Assets/Employee-Tracker%20-%20Visual%20Studio%20Code.png)
+![screenshots](./Assets/Employee-Tracker%20%201-%20Visual%20Studio%20Code.png)
+![screenshots](./Assets/-%20Employee-Tracker%202%20-%20Visual%20Studio%20Code.png)
+![screenshots](./Assets/Employee-Tracker%20%203-%20Visual%20Studio%20Code.png)
 
 
 
