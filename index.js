@@ -20,7 +20,8 @@ function startPrompt() {
             type: 'list',
             name: 'choice',
             message: "What would you like to do?",
-            choices: ['View All Departments',
+            choices: [
+                'View All Departments',
                 'View All Roles',
                 'View All Employees',
                 'Add Department',
@@ -45,11 +46,13 @@ function startPrompt() {
                     break;
                 case 'Add Department':
                     addDepartment();
+                    break;
                 case 'Add Role':
                     addRole();
                    break;
                 case 'Add Employee':
                     addEmp();
+                    break;
                 case 'Update Employee role':
                     updateEmpRole();   
                     break;   
@@ -131,11 +134,12 @@ const addRole = async () => {
      ]);
      await db.query(
         `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`,
-        [answers.role, answers.salary, answers.dept] );
+        [answers.role, answers.sal, answers.dept] );
     console.log("Added "+answers.dept+" to the database");
     startPrompt();
     }
     const addEmp = async () => {
+        console.log("Hello");
         const role = await db.query("SELECT id,title FROM role");
          const userChoices = role.map(role => ({
             name: role.title,
@@ -179,35 +183,35 @@ const addRole = async () => {
         console.log("Added "+answers.f_name + answers.l_name+" to the database");
         startPrompt();
         }
-    //     const updateEmpRole = async () => {
-    //         const employee = await db.query("SELECT * FROM employee");
-    //         const useremployee = employee.map(employee => ({
-    //             name: employee.first_name + " "+employee.last_name,
-    //             value: employee.id  
-    //        }) );
-    //        const role = await db.query("SELECT id,title FROM role");
-    //         const userRole = role.map(role => ({
-    //         name: role.title,
-    //         value: role.id     
-    //    }) );
-    //    console.log(userRole);
-    //          const answers = await inquirer.prompt([
-    //             {
-    //                 message: "Which employer role do you want to update?",
-    //                 name: "emp",
-    //                 type: "list",
-    //                 choices: useremployee
-    //             },
-    //             {
+        const updateEmpRole = async () => {
+            const employee = await db.query("SELECT * FROM employee");
+            const useremployee = employee.map(employee => ({
+                name: employee.first_name + " "+employee.last_name,
+                value: employee.id  
+           }) );
+           const role = await db.query("SELECT id,title FROM role");
+            const userRole = role.map(role => ({
+            name: role.title,
+            value: role.id     
+       }) );
+       //console.log(userRole);
+             const answers = await inquirer.prompt([
+                {
+                    message: "Which employer role do you want to update?",
+                    name: "emp",
+                    type: "list",
+                    choices: useremployee
+                },
+                {
                     
-    //                 message: "Which role do you want to assign selected employee?",
-    //                 name: "emp_role",
-    //                 type: "list",
-    //                 choices: userRole
-    //             }                
-    //          ]);
-    //         console.log("update Employee role");
-    //         startPrompt();
-    //         }
+                    message: "Which role do you want to assign selected employee?",
+                    name: "emp_role",
+                    type: "list",
+                    choices: userRole
+                }                
+             ]);
+            console.log("update Employee role");
+            startPrompt();
+            }
     
     
